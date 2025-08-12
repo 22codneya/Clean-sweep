@@ -77,7 +77,7 @@ nav ul li a:hover {
     text-align: center;
     overflow: hidden;
     /* Add your banner image path here */
-    background: url('images/banner.png') no-repeat center center/cover;
+    background: url('banner.png') no-repeat center center/cover;
 }
 
 .hero-overlay {
@@ -237,4 +237,5 @@ footer {
     .about h2 {
         font-size: 1.8em;
     }
+
 }
