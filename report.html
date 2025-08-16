@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Report Dirty Area - Clean Sweep Delhi</title>
+  <link rel="stylesheet" href="style2.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- Leaflet Geocoder CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+</head>
+<body>
+  <nav>
+    <h2>Clean Sweep Delhi</h2>
+    <a href="index.html">Home</a>
+    <a href="report.html" class="active">Report Area</a>
+    <a href="view.html">View Reports</a>
+  </nav>
+
+  <section class="map-container">
+    <div id="map"></div>
+    <button id="locateBtn">📍 Redirect to My Location</button>
+  </section>
+
+  <div id="popup" class="popup hidden">
+    <p id="popupText"></p>
+    <button id="confirmBtn">Yes</button>
+    <button id="cancelBtn">No</button>
+  </div>
+
+  <div id="uploadContainer" class="hidden">
+    <h3>Upload Photo of Dirty Area</h3>
+    <input type="file" id="photoUpload" accept="image/*">
+    <button id="submitReport">Submit Report</button>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Leaflet Geocoder JS -->
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script src="report.js"></script>
+</body>
+</html>
