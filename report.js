@@ -1,76 +1,88 @@
-// Initialize map centered on Delhi
-const map = L.map('map').setView([28.6139, 77.2090], 12);
+// Initialize Map
+const map = L.map("map").setView([28.6139, 77.2090], 13); // Default Delhi
 
-// Load OpenStreetMap tiles
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+// OpenStreetMap tiles
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
-  attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-// Add search box
-L.Control.geocoder().addTo(map);
+// Keep track of markers
+let markers = [];
 
-let tempMarker = null;
-let flaggedMarker = null;
-let flaggedLocation = null;
+// Search
+document.getElementById("searchBtn").addEventListener("click", () => {
+  const query = document.getElementById("searchBox").value;
+  if (!query) return;
 
-// On double-click, ask confirmation to pin
-map.on('dblclick', async function (e) {
-  const latlng = e.latlng;
-
-  // Get location name from Nominatim
-  const response = await fetch(
-    `https://nominatim.openstreetmap.org/reverse?lat=${latlng.lat}&lon=${latlng.lng}&format=json`
-  );
-  const data = await response.json();
-  const locationName = data.display_name || "Unknown Location";
-
-  // Show popup confirmation
-  document.getElementById('popup').classList.remove('hidden');
-  document.getElementById('popupText').textContent =
-    `Do you want to flag this location: ${locationName}?`;
-
-  flaggedLocation = { lat: latlng.lat, lon: latlng.lng, name: locationName };
+  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.length > 0) {
+        const { lat, lon } = data[0];
+        map.setView([lat, lon], 15);
+        const marker = L.marker([lat, lon]).addTo(map)
+          .bindPopup(`📍 ${query}`)
+          .openPopup();
+        markers.push(marker);
+      } else {
+        alert("Location not found!");
+      }
+    })
+    .catch(() => alert("Error searching location!"));
 });
 
-// Popup buttons
-document.getElementById('confirmBtn').onclick = function () {
-  document.getElementById('popup').classList.add('hidden');
-
-  if (flaggedMarker) {
-    map.removeLayer(flaggedMarker);
+// Find My Location
+document.getElementById("locateBtn").addEventListener("click", () => {
+  if (!navigator.geolocation) {
+    alert("Geolocation not supported!");
+    return;
   }
 
-  flaggedMarker = L.marker([flaggedLocation.lat, flaggedLocation.lon], {
-    icon: L.icon({
-      iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
-      iconSize: [30, 40],
-      iconAnchor: [15, 40]
-    })
-  }).addTo(map).bindPopup(`<b>${flaggedLocation.name}</b>`).openPopup();
+  navigator.geolocation.getCurrentPosition(pos => {
+    const { latitude, longitude } = pos.coords;
+    map.setView([latitude, longitude], 15);
+    const marker = L.marker([latitude, longitude]).addTo(map)
+      .bindPopup("You are here")
+      .openPopup();
+    markers.push(marker);
+  }, () => alert("Unable to retrieve location!"));
+});
 
-  // Show upload section
-  document.getElementById('uploadContainer').classList.remove('hidden');
-};
+// Report Form
+const reportForm = document.getElementById("reportForm");
+let flaggedMarker = null;
 
-document.getElementById('cancelBtn').onclick = function () {
-  document.getElementById('popup').classList.add('hidden');
-};
+// When user clicks map → ask confirmation
+map.on("click", e => {
+  if (confirm("Are you sure you want to flag this area?")) {
+    if (flaggedMarker) map.removeLayer(flaggedMarker);
 
-// Locate button
-document.getElementById('locateBtn').onclick = function () {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (pos) {
-      const { latitude, longitude } = pos.coords;
-      map.setView([latitude, longitude], 15);
-      L.circleMarker([latitude, longitude], { radius: 6, color: "blue" })
-        .addTo(map)
-        .bindPopup("You are here")
-        .openPopup();
-    }, function (err) {
-      alert("Unable to fetch your location.");
-    });
-  } else {
-    alert("Geolocation not supported.");
+    flaggedMarker = L.marker(e.latlng).addTo(map)
+      .bindPopup(" Flagged Area")
+      .openPopup();
+
+    // Show report form
+    reportForm.classList.remove("hidden");
   }
-};
+});
+
+// Submit Report
+document.getElementById("submitReport").addEventListener("click", () => {
+  const desc = document.getElementById("description").value;
+  const file = document.getElementById("imageUpload").files[0];
+  
+  if (!desc || !file) {
+    alert("Please upload an image and add a description!");
+    return;
+  }
+
+  alert("✅ Report submitted successfully!");
+  reportForm.classList.add("hidden");
+  document.getElementById("description").value = "";
+  document.getElementById("imageUpload").value = "";
+});
+
+// Cancel Report
+document.getElementById("cancelReport").addEventListener("click", () => {
+  reportForm.classList.add("hidden");
+});

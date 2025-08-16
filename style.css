@@ -18,21 +18,23 @@ header {
     background: #2c3e50;
     color: white;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 5px 15px;
-    position: relative;
-    z-index: 100;
+    padding: 10px 30px;
+    position: sticky;   /* stays on top when scrolling */
+    top: 0;
+    z-index: 1000;
 }
 
+/* Logo + Navigation container */
 .logo-container {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
 }
 
+/* Logo */
 .logo {
-    height: 70px;  /* Increased size */
+    height: 75px;   /* Bigger size */
     width: auto;
     transition: transform 0.3s ease;
 }
@@ -41,19 +43,19 @@ header {
     transform: scale(1.05);
 }
 
+/* Brand name */
 .brand-name {
-    font-size: 1.8em;  /* Increased size */
+    font-size: 1.9em;
     font-weight: bold;
     margin-left: 5px;
 }
 
+/* Navigation */
 nav ul {
     list-style: none;
     display: flex;
-}
-
-nav ul li {
-    margin-left: 20px;
+    margin-left: 25px;  /* space between logo and menu */
+    gap: 25px;
 }
 
 nav ul li a {
@@ -61,6 +63,7 @@ nav ul li a {
     text-decoration: none;
     transition: color 0.3s;
     font-weight: 500;
+    font-size: 18px;
 }
 
 nav ul li a:hover {
@@ -76,7 +79,6 @@ nav ul li a:hover {
     justify-content: center;
     text-align: center;
     overflow: hidden;
-    /* Add your banner image path here */
     background: url('images/banner.png') no-repeat center center/cover;
 }
 
@@ -142,6 +144,14 @@ nav ul li a:hover {
     background: #2980b9;
 }
 
+.btn-report {
+    background: #e67e22;   /* Orange */
+}
+
+.btn-report:hover {
+    background: #d35400;   /* Darker orange */
+}
+
 /* About section */
 .about {
     padding: 80px 40px;
@@ -186,7 +196,7 @@ footer {
     }
 
     .logo {
-        height: 45px;
+        height: 55px;
     }
     
     .brand-name {
@@ -196,11 +206,8 @@ footer {
     nav ul {
         flex-direction: column;
         align-items: center;
-        gap: 10px;
-    }
-
-    nav ul li {
-        margin: 0;
+        gap: 12px;
+        margin-left: 0;
     }
 
     .hero {
@@ -237,11 +244,4 @@ footer {
     .about h2 {
         font-size: 1.8em;
     }
-}
-.btn-report {
-    background: #e67e22;   /* Orange */
-}
-
-.btn-report:hover {
-    background: #d35400;   /* Darker orange */
 }

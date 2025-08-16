@@ -2,42 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Report Dirty Area - Clean Sweep Delhi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Dirty Area</title>
   <link rel="stylesheet" href="style2.css">
-  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <!-- Leaflet Geocoder CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 </head>
 <body>
-  <nav>
-    <h2>Clean Sweep Delhi</h2>
-    <a href="index.html">Home</a>
-    <a href="report.html" class="active">Report Area</a>
-    <a href="view.html">View Reports</a>
-  </nav>
+  <div id="map"></div>
 
-  <section class="map-container">
-    <div id="map"></div>
-    <button id="locateBtn">📍 Redirect to My Location</button>
-  </section>
-
-  <div id="popup" class="popup hidden">
-    <p id="popupText"></p>
-    <button id="confirmBtn">Yes</button>
-    <button id="cancelBtn">No</button>
+  <!-- Search Bar -->
+  <div class="search-container">
+    <input type="text" id="searchBox" placeholder="Search location...">
+    <button id="searchBtn">Search</button>
   </div>
 
-  <div id="uploadContainer" class="hidden">
-    <h3>Upload Photo of Dirty Area</h3>
-    <input type="file" id="photoUpload" accept="image/*">
+  <!-- Find My Location Button -->
+  <button id="locateBtn">📍</button>
+
+  <!-- Report Form (hidden until user clicks map + confirms) -->
+  <div id="reportForm" class="hidden">
+    <h3>Report Dirty Area</h3>
+    <p>Upload an image and describe the issue:</p>
+    <input type="file" id="imageUpload" accept="image/*"><br><br>
+    <textarea id="description" rows="3" placeholder="Describe the issue..."></textarea><br>
     <button id="submitReport">Submit Report</button>
+    <button id="cancelReport" class="cancel">Cancel</button>
   </div>
 
-  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <!-- Leaflet Geocoder JS -->
-  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
   <script src="report.js"></script>
 </body>
 </html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volunteer Signup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+    }
+
+    /* Volunteer Button */
+    .btn-secondary {
+      background: #3498db;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    .btn-secondary:hover {
+      background: #2980b9;
+      transform: scale(1.05);
+    }
+
+    /* Overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    /* Popup Form */
+    .popup {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .popup h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+      text-align: center;
+    }
+
+    .popup label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    .popup input[type="text"],
+    .popup input[type="email"],
+    .popup input[type="number"],
+    .popup textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .popup textarea {
+      resize: none;
+    }
+
+    .popup .checkbox-group {
+      margin: 10px 0;
+    }
+
+    .popup button {
+      background: #27ae60;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .popup button:hover {
+      background: #2ecc71;
+      transform: translateY(-2px);
+    }
+
+    /* Close Button */
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #888;
+    }
+    .close-btn:hover {
+      color: black;
+    }
+
+    /* NGO field hidden by default */
+    #ngo-name-container {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Volunteer Button -->
+  <button class="btn-secondary" id="openForm">🤝 Volunteer to Clean</button>
+
+  <!-- Overlay + Popup -->
+  <div class="overlay" id="formOverlay">
+    <div class="popup">
+      <span class="close-btn" id="closeForm">&times;</span>
+      <h2>Volunteer Sign Up</h2>
+      <form id="volunteerForm">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+
+        <label for="age">Age</label>
+        <input type="number" id="age" required>
+
+        <label for="address">Address</label>
+        <textarea id="address" rows="3" required></textarea>
+
+        <label for="phone">Phone No.</label>
+        <input type="text" id="phone" required>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="ngoCheck"> I am part of an NGO
+        </div>
+
+        <div id="ngo-name-container">
+          <label for="ngo-name">NGO Name</label>
+          <input type="text" id="ngo-name">
+        </div>
+
+        <button type="submit"> Be the Change</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Open & Close Popup
+    const openBtn = document.getElementById("openForm");
+    const closeBtn = document.getElementById("closeForm");
+    const overlay = document.getElementById("formOverlay");
+
+    openBtn.onclick = () => overlay.style.display = "flex";
+    closeBtn.onclick = () => overlay.style.display = "none";
+    window.onclick = (e) => { if (e.target === overlay) overlay.style.display = "none"; }
+
+    // Show NGO field if checked
+    const ngoCheck = document.getElementById("ngoCheck");
+    const ngoContainer = document.getElementById("ngo-name-container");
+
+    ngoCheck.addEventListener("change", () => {
+      ngoContainer.style.display = ngoCheck.checked ? "block" : "none";
+    });
+
+    // Handle form submit
+    document.getElementById("volunteerForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("🎉 Thank you for volunteering! You are our Hero!");
+      overlay.style.display = "none";
+    });
+  </script>
+
+</body>
+</html>
